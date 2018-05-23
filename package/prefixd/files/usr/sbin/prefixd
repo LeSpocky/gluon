@@ -109,11 +109,11 @@ handle_prefix() {
 }
 
 start_roaming() {
-	echo "add_prefix $1"| socat - $L3ROAMDSOCK
+	echo "add_prefix $1"| uc $L3ROAMDSOCK
 }
 
 stop_roaming() {
-	echo "del_prefix $1"| socat - $L3ROAMDSOCK
+	echo "del_prefix $1"| uc $L3ROAMDSOCK
 }
 
 enabled=$(uci get prefixd.ffshare1.enabled 2>/devnull)

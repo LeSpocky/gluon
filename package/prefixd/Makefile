@@ -14,7 +14,7 @@ define Package/prefixd
   SECTION:=gluon
   CATEGORY:=Gluon
   TITLE:=prefixd
-  DEPENDS:=+gluon-mesh-babel +ip-tiny +socat
+  DEPENDS:=+gluon-mesh-babel +ip-tiny +uc
 endef
 
 define Build/Prepare
