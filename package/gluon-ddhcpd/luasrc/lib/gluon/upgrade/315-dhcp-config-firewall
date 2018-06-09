@@ -1,7 +1,5 @@
 #!/usr/bin/lua
 
-local site = require 'gluon.site'
-
 local uci = require('simple-uci').cursor()
 
 uci:section('firewall', 'rule', 'local_node_dhcp', {
@@ -12,5 +10,4 @@ uci:section('firewall', 'rule', 'local_node_dhcp', {
 	target = 'ACCEPT'
 })
 
-uci:save('dhcp')
 uci:save('firewall')
