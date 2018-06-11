@@ -418,7 +418,7 @@ static uint64_t getnumber(const char *ifname, const char *stat) {
 static struct json_object * get_traffic(void) {
 	char ifname[16];
 
-	strncpy(ifname, "lo", 16);
+	strncpy(ifname, "br-client", 16);
 
 	struct json_object *ret = NULL;
 	struct json_object *rx = json_object_new_object();
