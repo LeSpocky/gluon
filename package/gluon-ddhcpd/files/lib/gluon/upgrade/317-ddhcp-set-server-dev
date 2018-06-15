@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ifdump=$(ubus call network.interface dump)
 serverdev=$(echo "$ifdump" | jsonfilter -e "@.interface[@.interface='$(cat /lib/gluon/respondd/client.dev 2>/dev/null)' && @.up=true].device")
