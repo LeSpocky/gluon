@@ -7,4 +7,4 @@ local uci = require('simple-uci').cursor()
 uci:set('ddhcpd', 'settings', 'block_network', site.prefix4())
 uci:set('ddhcpd', 'broadcast', 'payload', '255.255.255.255')
 
-uci:save('ddhcp')
+uci:save('ddhcpd')
