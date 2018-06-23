@@ -27,8 +27,7 @@ if e.prefix4 then -- Subnet
 	end
 end
 
---if e.ddhcpd and e.ddhcpd.broadcast then
---	io.write(" -o 28:4:" .. e.ddhcpd.broadcast) -- client subnet broadcast address
---end
-
-io.write(" -i mmfd0")
+-- TODO: find proper solution to obtain the value
+-- local uci = require('simple-uci').cursor()
+-- io.write(" -o 28:4:" .. uci:get('ddhcpd', 'broadcast', 'payload')) -- client subnet broadcast address
+io.write(" -o 28:4:10.126.255.255")
