@@ -13,7 +13,7 @@ uci:section('firewall', 'rule', 'local_node_dhcp', {
 uci:section('firewall', 'rule', 'ddhcpd_mmfd', {
 	dest_port = '1234',
 	src = 'mmfd',
-	option src_ip 'fe80::/64',
+	src_ip = 'fe80::/64',
 	name = 'allow_ddhcp_to_reserve_blocks',
 	proto = 'udp',
 	target = 'ACCEPT'
