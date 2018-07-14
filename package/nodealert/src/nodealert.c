@@ -4,8 +4,10 @@
 
 #include "alert.h"
 
-bool get_nodealert_isactive(void) {
-	return uci_lookup_option_bool(ctx, "settings", "active");
+int get_nodealert_isactive(void) {
+	const char *c = uci_lookup_option_string(ctx, "settings", "active");
+	printf("uci looked up: %s\n", c);
+	return ! strncmp(c, "true", 4);
 }
 
 struct json_object *alertme(void) {
@@ -24,10 +26,9 @@ struct json_object *alertme(void) {
 	if (uci_load(ctx, "nodealert", &p))
 		goto error;
 
-	struct json_object *nodealert;
-
 	bool isactive_nodealert = get_nodealert_isactive();
-	json_object_object_add(ret, "nodealert_active", isactive_nodealert);
+	struct json_object *j_isactive = json_object_new_boolean(isactive_nodealert);
+	json_object_object_add(ret, "nodealert_active", j_isactive);
 
 	return ret;
 
