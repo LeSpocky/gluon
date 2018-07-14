@@ -28,7 +28,7 @@ install(TARGETS alert
 if(RESPONDD)
 	add_library(respondd-alert SHARED respondd-alert.c) # FIXME make this a module
 	target_link_libraries(respondd-alert alert ${JSON_LIBRARIES})
-	target_include_directories(respondd-nexthop PUBLIC ${JSON_INCLUDE_DIRS})
+	target_include_directories(respondd-alert PUBLIC ${JSON_INCLUDE_DIRS})
 #	install(FILES $<TARGET_FILE:respondd-nexthop>
 	install(FILES respondd-alert.so
 		DESTINATION lib/gluon/respondd/)
