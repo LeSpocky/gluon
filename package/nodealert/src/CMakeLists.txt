@@ -45,12 +45,3 @@ if(INSTALL_TESTS)
 		RUNTIME DESTINATION bin)
 endif()
 
-if(RESPONDD)
-	add_executable(alert-test alert-test.c)
-	target_link_libraries(alert-test dl ${JSON_LIBRARIES})
-	target_include_directories(alert-test PUBLIC ${JSON_INCLUDE_DIRS})
-	if(INSTALL_TESTS)
-		install(TARGETS alert-test
-			RUNTIME DESTINATION bin)
-	endif()
-endif()
