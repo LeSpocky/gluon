@@ -7,6 +7,8 @@
 
 int get_nodealert_isactive(void) {
 	const char *c = NULL;
+	struct uci_context *ctx = NULL;
+	struct uci_package *p = NULL;
 
 	ctx = uci_alloc_context();
 	if (!ctx)
@@ -34,15 +36,17 @@ error:
 }
 
 struct json_object *alertme(void) {
-	struct uci_package *p = NULL;
-	struct uci_context *ctx = NULL;
 	struct json_object *ret = json_object_new_object();
 
 	if (!ret)
 		return NULL;
 
-	bool isactive_nodealert = get_nodealert_isactive();
+	int isactive_nodealert = get_nodealert_isactive();
 	struct json_object *j_isactive = json_object_new_boolean(isactive_nodealert);
+
+	if (!j_isactive)
+		return NULL;
+
 	json_object_object_add(ret, "nodealert_active", j_isactive);
 end:
 	return ret;
