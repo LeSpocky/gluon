@@ -18,7 +18,7 @@ int get_nodealert_isactive(void) {
 	if (uci_load(ctx, "nodealert", &p))
 		goto error;
 
-	c = uci_lookup_option_string(ctx, "settings", "active");
+	c = uci_lookup_option_string(ctx, p, "active");
 	printf("uci looked up: %s\n", c);
 
 	if (ctx) {
