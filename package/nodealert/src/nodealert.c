@@ -48,7 +48,7 @@ struct json_object *alertme(void) {
 		return NULL;
 
 	json_object_object_add(ret, "nodealert_active", j_isactive);
-end:
+
 	return ret;
 }
 
