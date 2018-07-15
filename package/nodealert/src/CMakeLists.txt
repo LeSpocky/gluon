@@ -41,6 +41,8 @@ add_executable(alert-test alert-test.c)
 target_link_libraries(alert-test alert)
 add_test(NAME alert-test COMMAND alert-test)
 if(INSTALL_TESTS)
+	target_link_libraries(alert-test ${JSON_LIBRARIES})
+	target_include_directories(alert-test PUBLIC ${JSON_INCLUDE_DIRS})
 	install(TARGETS alert-test
 		RUNTIME DESTINATION bin)
 endif()
