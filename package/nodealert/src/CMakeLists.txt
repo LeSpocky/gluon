@@ -8,9 +8,6 @@ option(BUILD_SHARED_LIBS "Use shared libraries" ON)
 option(RESPONDD "Enable respondd support" ON)
 option(INSTALL_TESTS "Also install test binaries" OFF)
 
-set(BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
-set(CMAKE_C_FLAGS "-Os -Wall --std=c99 -g3 -Wpedantic")
-
 INCLUDE(FindPkgConfig)
 pkg_search_module(UNL REQUIRED libnl-tiny)
 
@@ -30,7 +27,7 @@ if(RESPONDD)
 	target_link_libraries(respondd-alert alert ${JSON_LIBRARIES})
 	target_include_directories(respondd-alert PUBLIC ${JSON_INCLUDE_DIRS})
 #	install(FILES $<TARGET_FILE:respondd-nexthop>
-	install(FILES respondd-alert.so
+	install(FILES libalert.so
 		DESTINATION lib/gluon/respondd/)
 endif()
 
@@ -40,10 +37,8 @@ enable_testing()
 add_executable(alert-test alert-test.c)
 target_link_libraries(alert-test alert)
 add_test(NAME alert-test COMMAND alert-test)
-if(INSTALL_TESTS)
-	target_link_libraries(alert-test ${JSON_LIBRARIES})
-	target_include_directories(alert-test PUBLIC ${JSON_INCLUDE_DIRS})
-	install(TARGETS alert-test
-		RUNTIME DESTINATION bin)
-endif()
+target_link_libraries(alert-test ${JSON_LIBRARIES})
+target_include_directories(alert-test PUBLIC ${JSON_INCLUDE_DIRS})
+install(TARGETS alert-test
+	RUNTIME DESTINATION bin)
 
