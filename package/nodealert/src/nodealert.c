@@ -6,6 +6,19 @@
 #include "alert.h"
 
 // this function is available in libgluonutil too.
+static struct uci_section * get_first_section(struct uci_package *p, const char *type) {
+	struct uci_element *e;
+	uci_foreach_element(&p->sections, e) {
+		struct uci_section *s = uci_to_section(e);
+		if (!strcmp(s->type, type))
+			return s;
+	}
+
+	return NULL;
+}
+
+
+// this function is available in libgluonutil too.
 const char * get_first_option(struct uci_context *ctx, struct uci_package *p, const char *type, const char *option) {
 	struct uci_section *s = get_first_section(p, type);
 	if (s)
@@ -17,12 +30,12 @@ const char * get_first_option(struct uci_context *ctx, struct uci_package *p, co
 long get_uci_nodealert(struct uci_context *ctx, struct uci_package *p) {
 	const char *val  = get_first_option(ctx, p, "owner", "downtime_notification");
 	if (!val || !*val)
-		return NULL;
+		return -1;
 
 	char *end;
 	long i = strtol(val, &end, 10);
 	if (*end)
-		return NULL;
+		return -1;
 
 	return i;
 }
