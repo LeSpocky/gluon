@@ -35,16 +35,16 @@ int get_nodealert(void) {
 
 	ctx = uci_alloc_context();
 	if (!ctx)
-		goto error;
+		goto end;
 	ctx->flags &= ~UCI_FLAG_STRICT;
 
 	if (uci_load(ctx, "gluon-node-info", &p))
 		goto error;
 
 	long i = get_uci_nodealert(ctx, p);
-
+error:
 	uci_free_context(ctx);
-
+end:
 	return i;
 }
 
