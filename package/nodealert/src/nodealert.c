@@ -5,7 +5,29 @@
 
 #include "alert.h"
 
-int get_nodealert_isactive(void) {
+// this function is available in libgluonutil too.
+const char * get_first_option(struct uci_context *ctx, struct uci_package *p, const char *type, const char *option) {
+	struct uci_section *s = get_first_section(p, type);
+	if (s)
+		return uci_lookup_option_string(ctx, s, option);
+	else
+		return NULL;
+}
+
+long get_uci_nodealert(struct uci_context *ctx, struct uci_package *p) {
+	const char *val  = get_first_option(ctx, p, "owner", "downtime_notification");
+	if (!val || !*val)
+		return NULL;
+
+	char *end;
+	long i = strtol(val, &end, 10);
+	if (*end)
+		return NULL;
+
+	return i;
+}
+
+int get_nodealert(void) {
 	const char *c = NULL;
 	struct uci_context *ctx = NULL;
 	struct uci_package *p = NULL;
@@ -16,28 +38,14 @@ int get_nodealert_isactive(void) {
 		goto error;
 	ctx->flags &= ~UCI_FLAG_STRICT;
 
-	if (uci_load(ctx, "nodealert", &p))
+	if (uci_load(ctx, "gluon-node-info", &p))
 		goto error;
 
-	struct uci_section *s = uci_lookup_section(ctx, p, "nodealert");
-	if (!s)
-		goto error;
+	long i = get_uci_nodealert(ctx, p);
 
-	c = uci_lookup_option_string(ctx, p, "active");
-	if (! c)
-		goto error;
-	printf("uci looked up: %s\n", c);
+	uci_free_context(ctx);
 
-	zero_if_active_is_true = strncmp(c, "true", 4);
-
-error:
-	if (ctx) {
-		if (p)
-			uci_unload(ctx, p);
-		uci_free_context(ctx);
-	}
-
-	return zero_if_active_is_true;
+	return i;
 }
 
 struct json_object *alertme(void) {
@@ -46,13 +54,12 @@ struct json_object *alertme(void) {
 	if (!ret)
 		return NULL;
 
-	int isactive_nodealert = get_nodealert_isactive();
-	struct json_object *j_isactive = json_object_new_boolean(isactive_nodealert == 0 ? 1 : 0);
+	struct json_object *nodealert = json_object_new_int(get_nodealert());
 
-	if (!j_isactive)
+	if (!nodealert)
 		return NULL;
 
-	json_object_object_add(ret, "nodealert_active", j_isactive);
+	json_object_object_add(ret, "downtime_notification", nodealert);
 
 	return ret;
 }
