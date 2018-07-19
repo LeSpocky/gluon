@@ -32,6 +32,7 @@ define Package/nodealert/install
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(INSTALL_DIR) $(1)/lib/gluon/respondd
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libalert.so $(1)/usr/lib/respondd-alert.so
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/alert-test $(1)/usr/bin/alert-test
 endef
  
 $(eval $(call BuildPackage,nodealert))
